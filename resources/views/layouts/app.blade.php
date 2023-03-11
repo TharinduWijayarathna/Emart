@@ -1,45 +1,48 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="en">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>
+        @yield('title', 'Emart - X Module')
+    </title>
+    <meta name="keywords" content="">
+    <meta name="description" content="Yoo Brands Pvt Ltd">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/logo/box_logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('img/logo/box_logo.png') }}">
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Styles -->
-        @livewireStyles
-    </head>
-    <body class="font-sans antialiased">
-        <x-banner />
+    @php
+        $curr_url = Route::currentRouteName();
+        // if ($errors) {
+        // $errors_msgs = $errors->messages();
+        // }else {
+        // $errors_msgs = [];
+        // }
+    @endphp
 
-        <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-menu')
+    @include('libraries.styles')
+</head>
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+<body class="g-sidenav-show  bg-gray-100">
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+    @include('components.preloader')
+
+    <div class="min-height-150 bg-header position-absolute w-100"></div>
+    @include('components.side-bar')
+    <main class="main-content position-relative border-radius-lg ">
+        @include('components.nav')
+        {{ $header ?? '' }}
+        <div class="container-fluid py-4">
+            {{ $content ?? '' }}
+            @stack('modals')
         </div>
+        @include('components.footer')
+    </main>
+    @include('libraries.scripts')
+</body>
 
-        @stack('modals')
-
-        @livewireScripts
-    </body>
 </html>
